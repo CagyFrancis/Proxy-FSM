@@ -1,0 +1,65 @@
+import os
+import subprocess
+
+# 启用测试集
+worklist = ['array-tests',
+            'basic-tests',
+            'complex-tests',
+            'context-tests',
+            'global-tests',
+            'heap-tests',
+            'master-tests',
+            'path-tests',
+            'struct-tests'
+            ]
+worklist = ['master-tests']
+# 读取工作目录
+basedir = os.path.dirname(__file__)
+# 主循环
+for item in worklist:
+    # 计算测试集目录
+    srcdir = os.path.join(basedir, 'src', item)
+    dstdir = os.path.join(basedir, 'src-bc', item)
+    txtdir = os.path.join(basedir, 'src-ll', item)
+    # 测试集目录判定
+    if not os.path.exists(srcdir):
+        continue
+    # 读取测试集列表
+    srclist = os.listdir(srcdir)
+    # 创建编译目录
+    if not os.path.exists(dstdir):
+        os.mkdir(dstdir)
+    # 创建文本目录
+    if not os.path.exists(txtdir):
+        os.mkdir(txtdir)
+    # 编译测试集
+    for target in srclist:
+        # 计算测试样例信息
+        name, ext = os.path.splitext(target)
+        # 选择编译器
+        if ext == '.c':
+            compiler = 'clang'
+        elif ext == '.cpp':
+            compiler = 'clang++'
+        else:
+            continue
+        # 计算输入输出目录
+        inp = os.path.join(srcdir, target)
+        out = os.path.join(dstdir, f'{name}.bc')
+        txt = os.path.join(txtdir, f'{name}.ll')
+        # 编译开始
+        print(f'-- Building {inp}', end=' ')
+        # 编译.bc二进制文件
+        args = [compiler, '-emit-llvm', '-c', '-g', inp, '-o', out]
+        subprocess.run(args)
+        # 优化.bc二进制文件
+        args = ['opt', '-mem2reg', out, '-o', out]
+        subprocess.run(args)
+        # 生成.ll文本文件
+        args = ['llvm-dis', out, '-o', txt]
+        subprocess.run(args)
+        # 编译结束
+        print('-- done')
+
+# 编译结束
+print(f'-> Files have been written to: {basedir}')

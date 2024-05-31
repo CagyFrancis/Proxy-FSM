@@ -1,0 +1,15 @@
+_*.py
+.vscode
+figures
+build
+ffi/build
+__pycache__
+llvmlite/__pycache__
+llvmlite/binding/__pycache__
+llvmlite/binding/*.dll
+llvmlite/binding/*.so
+llvmlite/ir/__pycache__
+llvmlite/tests/__pycache__
+test-suite/src/project-tests
+test-suite/src-bc/project-tests
+test-suite/src-ll/project-tests
