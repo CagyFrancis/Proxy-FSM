@@ -82,7 +82,7 @@ class Analyzer:
         self.__queries__.append(Query(address, symbol, location, variable, sample))
 
     ## 指针分析 ##
-    def analysis(self, verbose:int = 10):
+    def analysis(self, verbose:int = 0):
         # 读取默认路径
         source = self.__interpreter__.getSource()
         # 默认路径判定
@@ -109,7 +109,7 @@ class Analyzer:
         # 测试验证阶段
         self.__verify__(verbose)
         # 展示数据判定
-        if verbose == 1:
+        if verbose <= 1:
             return
         # 展示数据阶段
         list(map(self.__display__, self.__queries__))

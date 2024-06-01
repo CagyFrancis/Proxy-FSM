@@ -2,7 +2,7 @@
 
 int *quz() {
     int *r = (int *)malloc(sizeof(int));
-    return r;        // R
+    return r;        // V-R
 }
 
 int *bar(int *q) {
@@ -19,8 +19,8 @@ int main() {
     int a, b;
     int *r1, *r2, *r3;
 
-    r1 = foo(&a);   // F
-    r2 = foo(&b);   // F
+    r1 = foo(&a);   // V-F
+    r2 = foo(&b);   // V-F
     r3 = quz();
 
     return 0;
