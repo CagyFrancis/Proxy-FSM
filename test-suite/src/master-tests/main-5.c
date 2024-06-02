@@ -5,6 +5,7 @@ int* foo(int *x) {
 }
 
 void bar() {
+
     int a, b, *c;
 
     c = foo(&a);
@@ -14,5 +15,7 @@ void bar() {
 }
 
 int main() {
+
     return 0;
+
 }
